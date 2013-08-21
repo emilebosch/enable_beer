@@ -4,7 +4,7 @@ require 'bundler/setup'
 require 'github_api'
 
 if ARGV.length != 1
-	puts "USAGE: ./stash <GH USERNAME>"
+	puts "USAGE: ./enable_beer <GH USERNAME>"
 	exit
 end
 
@@ -25,7 +25,7 @@ else
 end
 
 `ln -f -s ~/Dropbox Dropbox`
-`mkdir -p ./Dropbox/gh-stashes`
+`mkdir -p ./Dropbox/gh_rescued_beers`
 `mkdir -p ./tmp`
 
 USER = ARGV[0]
@@ -51,7 +51,7 @@ if true
 		`git clone #{repo.ssh_url} ./tmp/#{repo.name}`
 		`cd ./tmp && tar czvf #{repo.name}.tgz #{repo.name}`
 	end
-	`cp ./tmp/*.tgz ./Dropbox/gh-stashes/`
+	`cp ./tmp/*.tgz ./Dropbox/gh_rescued_beers`
 end
 
 puts "Add #BACKUP in the description to back it up.."
