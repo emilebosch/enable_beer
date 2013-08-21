@@ -1,0 +1,57 @@
+#!/usr/bin/env ruby
+require 'rubygems'
+require 'bundler/setup'
+require 'github_api'
+
+if ARGV.length != 1
+	puts "USAGE: ./stash <GH USERNAME>"
+	exit
+end
+
+begin
+  require 'io/console'
+rescue LoadError
+end
+
+if STDIN.respond_to?(:noecho)
+  def get_password(prompt="Password: ")
+    print prompt
+    STDIN.noecho(&:gets).chomp
+  end
+else
+  def get_password(prompt="Password: ")
+    `read -s -p "#{prompt}" password; echo $password`.chomp
+  end
+end
+
+`ln -f -s ~/Dropbox Dropbox`
+`mkdir -p ./Dropbox/gh-stashes`
+`mkdir -p ./tmp`
+
+USER = ARGV[0]
+
+PASS = get_password("Enter your GH password here for #{USER}: ")
+github = Github.new login: USER, password: PASS
+
+puts ""
+puts "Listing private repos.."
+a = github.repos.list(:sources)
+
+puts "-> Repos marked #BACKUP in the description"
+puts "-------"
+
+marked = a.select { | r | r.description.match('#BACKUP') }
+marked.each do |repo|
+	puts "-> #{repo.full_name} - #{repo.description}"
+end
+
+if true
+	marked.each do |repo|
+		puts "Cloning...."
+		`git clone #{repo.ssh_url} ./tmp/#{repo.name}`
+		`cd ./tmp && tar czvf #{repo.name}.tgz #{repo.name}`
+	end
+	`cp ./tmp/*.tgz ./Dropbox/gh-stashes/`
+end
+
+puts "Add #BACKUP in the description to back it up.."
