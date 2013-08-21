@@ -24,10 +24,11 @@ else
   end
 end
 
-`ln -f -s ~/Dropbox Dropbox`
-`mkdir -p ./Dropbox/gh_rescued_beers`
-`mkdir -p ./tmp`
+`ln -f -s ~/Dropbox ./.dropbox`
+`mkdir -p ./.dropbox/gh_rescued_beers`
+`mkdir -p ./.tmp`
 
+exit
 USER = ARGV[0]
 
 PASS = get_password("Enter your GH password here for #{USER}: ")
@@ -45,13 +46,11 @@ marked.each do |repo|
 	puts "-> #{repo.full_name} - #{repo.description}"
 end
 
-if true
-	marked.each do |repo|
-		puts "Cloning...."
-		`git clone #{repo.ssh_url} ./tmp/#{repo.name}`
-		`cd ./tmp && tar czvf #{repo.name}.tgz #{repo.name}`
-	end
-	`cp ./tmp/*.tgz ./Dropbox/gh_rescued_beers`
+marked.each do |repo|
+	puts "Cloning...."
+	`git clone #{repo.ssh_url} ./.tmp/#{repo.name}`
+	`cd ./.tmp && tar czvf #{repo.name}.tgz #{repo.name}`
 end
+`cp ./tmp/*.tgz ./.dropbox/gh_rescued_beers`
 
 puts "Add #BACKUP in the description to back it up.."

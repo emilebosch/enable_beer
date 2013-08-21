@@ -1,4 +1,3 @@
-tmp/
-Dropbox
 Gemfile.lock
-.DS_Store
+.dropbox
+.tmp
