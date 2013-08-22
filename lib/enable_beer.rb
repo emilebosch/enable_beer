@@ -1,5 +1,4 @@
 require 'rubygems'
-require 'bundler/setup'
 require 'github_api'
 
 def save_the_beers(args)

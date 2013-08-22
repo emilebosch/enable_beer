@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'enable_beer'
-  s.version     = '1.0.1'
+  s.version     = '1.0.2'
   s.date        = '2013-08-22'
   s.summary     = "Beer enabler"
   s.description = "Enable_beer backs up your private git repo's to dropbox so you can save money and buy beers instead. "
