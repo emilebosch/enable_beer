@@ -1,0 +1,4 @@
+#!/usr/bin/env ruby
+require 'enable_beer'
+
+save_the_beers(ARGV)
